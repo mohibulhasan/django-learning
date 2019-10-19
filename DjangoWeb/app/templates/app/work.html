@@ -8,12 +8,12 @@
 <div class="dropdown">
     <button type="button" onclick="location.href='{% url 'script' %}'" class="btn btn-primary">RTR-DHK-01</button>
     
-    <form action="">
+    <form action="." method="post" class="form-horizontal">
         {% csrf_token %}
         Input Text:
-        <input type="text" name="param" required><br><br>
-        {{data_external}}<br><br>
-        {{data1}}
+        <input type="text"><br><br>
+        {#{{routerssh.sshrouter()}}<br><br>#}
+        
         <br><br>
         <input type="submit" value="Execute External Python Script">
     </form>

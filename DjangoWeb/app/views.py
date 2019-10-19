@@ -7,6 +7,7 @@ from django.shortcuts import render
 from subprocess import run,PIPE 
 import sys
 from django.http import HttpRequest
+from django.http import HttpResponseRedirect
 from app import routerssh
 from django import forms
 
@@ -23,18 +24,38 @@ def home(request):
         }
     )
 
+class ContactForm(forms.Form):
+    yourname = forms.CharField(max_length=100, label="Your Name")
+    email = forms.EmailField(required=False, label='Your e-mail address')
+    subject = forms.CharField(max_length=100)
+    message = forms.CharField(widget=forms.Textarea)
+    
 def contact(request):
-    """Renders the contact page."""
-    assert isinstance(request, HttpRequest)
-    return render(
-        request,
-        'app/contact.html',
-        {
-            'title':'Contact',
-            'message':'Your contact page.',
-            'year':datetime.now().year,
-        }
-    )
+    submitted = False
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            # assert False
+            return HttpResponseRedirect('/contact?submitted=True')
+    else:
+        form = ContactForm()
+        if 'submitted' in request.GET:
+            submitted = True
+ 
+    return render(request, 'app/contact.html', {'form': form, 'submitted': submitted})
+#def contact(request):
+#    """Renders the contact page."""
+#    assert isinstance(request, HttpRequest)
+#    return render(
+#        request,
+#        'app/contact.html',
+#        {
+#            'title':'Contact',
+#            'message':'Your contact page.',
+#            'year':datetime.now().year,
+#        }
+#    )
 
 def about(request):
     """Renders the about page."""

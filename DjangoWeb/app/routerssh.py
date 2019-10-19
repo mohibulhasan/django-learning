@@ -10,13 +10,15 @@ def sshrouter(val):
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-    hostname = input("Enter host IP address: ")
-    username = input("Enter SSH Username: ")
-    password = input("Enter SSH Password: ") 
+    hostname = "172.16.0.2"
+    username = "nayan"
+    password = "nayan"
     port = 22
 
-    ssh.connect(hostname, port, username, password, look_for_keys=False)
-    stdin,stdout,stderr = ssh.exec_command('show users')
+    ssh.connect(hostname, port, username, password, look_for_keys=False, allow_agent=False)
+    #cmd = input("enter command: ")
+    cmd = "show run"
+    stdin,stdout,stderr = ssh.exec_command(cmd)
     output = stdout.readlines()
     print ('\n'.join(output))
     print (val)

@@ -12,6 +12,23 @@
     xxxxxxxx
 </address>
 
+{% if submitted %}
+    <p class="success">
+        your message was submitted successfully.
+    </p>
+{% else %}
+    <form action="" method="post" novalidate>
+        <table>
+            {{ form.as_table }}
+            <tr>
+                <td>&nbsp;</td>
+                <td><input type="submit" value="Submit"</td>
+            </tr>
+        </table>
+        {% csrf_token %}
+    </form>
+{% endif %}
+
 <address>
     <strong>Support:</strong>   <a href="mailto:Support@example.com">mohibul.hasan@bsccl.com</a><br />
     {#<strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>#}
